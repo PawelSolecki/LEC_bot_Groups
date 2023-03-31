@@ -8,7 +8,6 @@ This is a discord bot which provides voting system to LEC matches (also Worlds a
 Bot sends voting message every match day and also has some commands:
 #### *Common:*
 - `points`(h) -> check server users' points
-- `schedule`(s) -> command to check weeks' schedule
 - `feedback`(s) -> command to give feedback for bot oweners
 - `my_vote`(s) -> command to see your's today vote
 
