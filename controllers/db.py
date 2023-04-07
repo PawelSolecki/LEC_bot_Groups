@@ -337,3 +337,28 @@ def getAllMatches():
     for i in selectQuery(query): #tworznie listy 2d z [team_1_short,team_2_short,match_id]
         matches.append(models.Match(i[0],i[1],i[2],i[3],i[4],i[5],i[6],i[7],None,i[8])) 
     return matches
+
+def getMostVotedBonusAnswer(server, today):
+    users_array = getUsersFromServer(server)#sciaganie wszystkich userow z servera
+    users=""
+    for user in users_array:
+        users+=f"{user}, "
+    if users =="":
+        return #jezeli nie ma userow to przerywamy
+    
+    sql = f"SELECT vote, COUNT(vote) FROM Users_bonus_votes WHERE user_id IN ({users[:-2]}) AND bonus_id = {getServerTodayBonus(server.discord_server_id,today)[0]} GROUP BY vote ORDER BY COUNT(vote) DESC LIMIT 3"
+    sql2 = f"SELECT COUNT(vote) FROM Users_bonus_votes WHERE user_id IN ({users[:-2]}) AND bonus_id = {getServerTodayBonus(server.discord_server_id, today)[0]}"
+    query = selectQuery(sql)
+    query2 = selectQuery(sql2)
+    
+    mostVotedBonusAnswer = "\n**Most voted bonus answer:**\n"
+    print(query)
+    print("---------")
+    print(query2)
+    if len(query)<3:
+        rangeDlaFora = len(query)
+    else:
+        rangeDlaFora = 3
+    for i in range(rangeDlaFora):
+        mostVotedBonusAnswer += f"{str(query[i][0])[2:-2] - round((query[i][1]/query2[0][0])*100)}%\n"
+    return mostVotedBonusAnswer

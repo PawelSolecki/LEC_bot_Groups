@@ -21,7 +21,7 @@ intents.presences = False
 intents.members = True
 
 client = discord.Client(intents=intents)
-bot = commands.Bot(command_prefix=".",intents=intents,help_command=None)
+bot = commands.Bot(command_prefix=">",intents=intents,help_command=None)
 TOKEN = secret.bot_token
 
 
