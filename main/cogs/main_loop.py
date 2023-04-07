@@ -44,11 +44,11 @@ class MainLoop(commands.Cog):
         try:
             global isDayEnded
             print(f"main_loop: {datetime.now().hour} : {datetime.now().minute} : {datetime.now().second}")
-            #if str(date.today()) in db.getDates(): #czy dzis jest mecz (format daty YYYY-MM-DD)
-            if True:
+            if str(date.today()) in db.getDates(): #czy dzis jest mecz (format daty YYYY-MM-DD)
+            #if True:
                 try:
-                    if datetime.now().hour == h and datetime.now().minute == m:
-                    #if datetime.now().hour == const.h and datetime.now().minute == const.m:
+                    #if datetime.now().hour == h and datetime.now().minute == m:
+                    if datetime.now().hour == const.h and datetime.now().minute == const.m:
                         isDayEnded=False
                         view = bot_functions.createView(date.today())
                         details = db.getMatchDetails(date.today()) # [0] = week number, [1] = day number
