@@ -64,7 +64,13 @@ def f_embed(title, description, color,footer=None):
 def createVotingResultEmbed(server ,today):
     match_details = db.getMatchDetails(today) # [0] = week number, [1] = day number
     title = f"\t\tWeek {match_details[0]} Day {match_details[1]}"
-    description =  f"**Server votes (total votes: {countVotes(server,today)}):\n\n**"
+
+    description =  f"**Server votes (total votes: {countVotes(server,today)}"
+    if countBonusVotes(server,today) ==0:
+        description+=")**\n\n"
+    else:
+        description = description[:-1]
+        description+=f" | total votes for bonus: {countBonusVotes(server,today)}):\n\n**"
     results = {} # okresla glosy na dany team w danym meczu
     for match in db.getTodaysMatches(today):
         results[match.match_id] = {"team_1_short":"","team_1_votes":0,"team_1_20":0,"team_1_21":0, "team_2_short":"", "team_2_votes":0,"team_2_20":0,"team_2_21":0}
@@ -150,3 +156,17 @@ def availableBonusAnswer(bonus_details):
         return ", ".join(games)
     elif bonus_details == games_with_zero:
         return ", ".join(games_with_zero)
+
+def countBonusVotes(server,today):
+    bonus_id = db.getServerTodayBonus(server.discord_server_id, today)[0]
+    users=""
+    for i in db.getUsersFromServer(server):
+        users+=f"{i}, "
+    if users =="":
+        return 0
+    # server_users =  ", ".join(db.getUsersFromServer(server))
+
+    query =db.selectQuery(f"SELECT COUNT(user_id) FROM Users_bonus_votes WHERE bonus_id = {bonus_id} AND user_id IN ({users[:-2]})")
+    if query == []:
+        return 0
+    return query[0][0]
