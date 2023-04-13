@@ -69,7 +69,6 @@ def createVotingResultEmbed(server ,today):
     if countBonusVotes(server,today) ==0:
         description+=")**\n\n"
     else:
-        description = description[:-1]
         description+=f" | total votes for bonus: {countBonusVotes(server,today)}):\n\n**"
     results = {} # okresla glosy na dany team w danym meczu
     for match in db.getTodaysMatches(today):
@@ -78,7 +77,6 @@ def createVotingResultEmbed(server ,today):
     users_string_for_query = "" # okreslenie wszystkich userow servera jako string dla sql IN query
     for user in db.getUsersFromServer(server):
         users_string_for_query += f"{user}, "
-    
     
     for match in db.getTodaysMatches(today):
         team_1_votes = db.getAmountOfVotes(users_string_for_query,match.team_1_short,match.match_id)
@@ -95,7 +93,7 @@ def createVotingResultEmbed(server ,today):
         results[match.match_id]["team_2_21"] = team_2_votes[2]
     
     for match in results:
-        if results[match]["team_1_votes"] + results[match]["team_2_votes"] == 0:
+        if int(results[match]["team_1_votes"]) + int(results[match]["team_2_votes"]) == 0:
             description+= f"0% - {results[match]['team_1_short']} {10*const.white_square} {results[match]['team_2_short']} - 0%\n\n"
         else:
             #tworzenie pb (bloczki)

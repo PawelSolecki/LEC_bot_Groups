@@ -14,7 +14,7 @@ import controllers.leaguepedia as leaguepedia
 
 h = datetime.now().hour
 m = datetime.now().minute
-isDayEnded = False
+isDayEnded = True
 
 #today = '2023-02-12'
 class MainLoop(commands.Cog):

@@ -259,7 +259,7 @@ class BonusAnswerModal(discord.ui.Modal, title= "Bonus answer"):
             if db.updatePointsBonus(server, answers, bonus_details) == False:#jezli wprowadzone odpowiedzi nie sa w availavle answers to errow
                 await interaction.user.send(embed = bot_functions.f_embed("We have a problem 🤖", f"Available answers for today bonus\n {bot_functions.availableBonusAnswer(bonus_details[1])}",const.color_red))
             else:#wysylamy potwierdzenie
-                description = f"**{', '.join(answers)}**"
+                description = f"**{', '.join(answers)}**\n"
                 description += db.getMostVotedBonusAnswer(server, today)
                 try:
                     await self.bot.get_channel(int(server.channel)).send(embed=bot_functions.f_embed("Correct answer(s) for today bonus:",description, const.color_basic))

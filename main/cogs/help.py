@@ -98,12 +98,12 @@ class Help(commands.Cog):
 
     @commands.hybrid_command(name = "help_vote",with_app_command=True, description= "How to vote")   
     async def helpVote(self, ctx):
-        await ctx.reply(embed = bot_functions.f_embed("Help vote","""
+        await ctx.reply(embed = bot_functions.f_embed("Help vote",f"""
         You can vote to each team by clicking buttons
         At first vote for the team then predict thier score
         You can reset your votes by clicking 'Reset' button\n
         Each correct answer is worth one point
-        Voting starts at 8 (CET) and ends at 18 (CET)
+        Voting starts at {const.h}:{const.m} (CEST) and ends at 18 (CEST)
         """,const.color_admin), ephemeral=True)
 
         
